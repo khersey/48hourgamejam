@@ -1,0 +1,12 @@
+images {
+  image: "/def-runner/hud/energy-bar.png"
+}
+images {
+  image: "/def-runner/hud/health-bar.png"
+}
+images {
+  image: "/def-runner/hud/textbox.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
