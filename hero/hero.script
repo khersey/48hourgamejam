@@ -115,10 +115,11 @@ function on_message(self, message_id, message, sender)
 						msg.post("#", "reset")
 					end
 				end)
-				
+		elseif message.group == hash("killbox") then
+			msg.post(message.other_id, "urded")
 		elseif message.group == hash("geometry") then
 			handle_geometry_contact(self, message.normal, message.distance)
-		end
+		end  
 	end
 end
 

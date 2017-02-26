@@ -1,5 +1,7 @@
+local speeds = { 6, 7, 8 }
+
 function init(self)
-    self.speed = 6
+    self.speed = speeds[math.random(#speeds)]
 end
 
 function final(self)
@@ -10,13 +12,21 @@ end
 function update(self, dt)
     local pos = go.get_position(p)
     if pos.x < -500 then
-    	go.destroy(p)
+    	msg.post("/level/controller#script", "delete_skull", { id = go.get_id() })
     end
     pos.x = pos.x - self.speed
 	go.set_position(pos, p)
 end
 
 function on_message(self, message_id, message, sender)
-    	-- nothing 
+	local id = go.get_id()
+	if message_id == hash("urded") then
+		msg.post("#sprite", "play_animation", {id = hash("die")})
+		go.animate(id, "position.y", go.PLAYBACK_ONCE_FORWARD, go.get_position().y - 200, go.EASING_INSINE, 0.5, 0.2,
+    		function()
+    			msg.post("/level/controller#script", "delete_skull", { id = go.get_id() })
+    		end)
+    	msg.post("/level/controller#script", "score_coin")
+    end
 end
 

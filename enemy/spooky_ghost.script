@@ -1,0 +1,36 @@
+function init(self)
+    self.x_speed = 3
+    self.y_pos = nil
+    self.y_speed = 2
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+    local pos = go.get_position(p)
+    if self.y_pos == nil then
+    	self.y_pos = pos.y
+    end
+    
+    if pos.x < -500 then
+    	msg.post("/level/controller#script", "delete_spooky_ghost", { id = go.get_id() })
+    end
+    
+    if (pos.y - self.y_pos) >= 250 then
+    	self.y_speed = -2
+    elseif (pos.y - self.y_pos) <= -250 then
+    	self.y_speed = 2
+    end
+    
+    pos.x = pos.x - self.x_speed
+    pos.y = pos.y + self.y_speed
+	go.set_position(pos, p)
+end
+
+function on_message(self, message_id, message, sender)
+    -- Add message-handling code here
+    -- Remove this function if not needed
+end
