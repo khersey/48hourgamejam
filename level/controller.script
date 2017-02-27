@@ -24,11 +24,37 @@ end
 function update(self, dt)
 	self.gridw = self.gridw + self.speed
 	
-	local skull_rate = 0
+	local skull_rate = 1
 	if self.score > 1000 then
-		skull_rate = 7
-	elseif self.score > 2250 then
+		skull_rate = 4
+	elseif self.score > 3000 then
+		skull_rate = 6
+	elseif self.score > 5000 then
+		skull_rate = 8
+	elseif self.score > 8000 then
 		skull_rate = 10
+	end
+	
+	local ghost_rate = 0
+	if self.score > 2000 then
+		ghost_rate = 1
+	elseif self.score > 3000 then
+		ghost_rate = 2
+	elseif self.score > 5000 then
+		ghost_rate = 3
+	elseif self.score > 7000 then
+		ghost_rate = 4
+	elseif self.score > 9000 then
+		ghost_rate = 5
+	end
+	
+	local doubleskull_rate = 3
+	if self.score > 2500 then
+		doubleskull_rate = 4
+	elseif self.score > 5000 then
+		doubleskull_rate = 5
+	elseif self.score > 7500 then
+		doubleskull_rate = 6
 	end
 		
 	if self.gridw >= grid then
@@ -56,7 +82,7 @@ function update(self, dt)
 			local f = "#skull_factory"  
 			local p = factory.create(f, vmath.vector3(1600, h, 0.2), nil, {}, 1.5)
 			table.insert(self.skulls, p)
-			if math.random(5) <= 2 then
+			if math.random(10) <= doubleskull_rate then
 				local h2 = skull_heights[math.random(#skull_heights)]
 				local p2 = factory.create(f, vmath.vector3(1600, h2, 0.2), nil, {}, 1.5)
 				table.insert(self.skulls, p2)
@@ -64,7 +90,7 @@ function update(self, dt)
 		end	
 		
 		-- Spawn Spooky Ghosts
-		if math.random(5) == 2 and self.score > 2000 then
+		if math.random(10) <= ghost_rate then
 			local h = skull_heights[math.random(#skull_heights)]
 			local f = "#spooky_ghost_factory"
 			local p = factory.create(f, vmath.vector3(1600, h, -0.2), nil, {}, 3) 
@@ -120,6 +146,9 @@ function on_message(self, message_id, message, sender)
     elseif message_id == hash("score_coin") then
     	self.score = self.score + 50
     	msg.post("hud", "set_score", { score = self.score })
+    
+    elseif message_id == hash("score_skull") then
+    	self.score = self.score + 200
     end
 end
 

@@ -1,7 +1,10 @@
+local y_up_speeds = { 7, 8, 10 }
+local y_down_speeds = { -1, -1, -1, -4 }
+
 function init(self)
     self.x_speed = 3
     self.y_pos = nil
-    self.y_speed = 2
+    self.y_speed = -1
 end
 
 function final(self)
@@ -19,10 +22,10 @@ function update(self, dt)
     	msg.post("/level/controller#script", "delete_spooky_ghost", { id = go.get_id() })
     end
     
-    if (pos.y - self.y_pos) >= 250 then
-    	self.y_speed = -1
-    elseif (pos.y - self.y_pos) <= -250 then
-    	self.y_speed = 8
+    if (pos.y - self.y_pos) >= 120 then
+    	self.y_speed = y_down_speeds[math.random(#y_down_speeds)]
+    elseif (pos.y - self.y_pos) <= -300 then
+    	self.y_speed = y_up_speeds[math.random(#y_up_speeds)]
     end
     
     pos.x = pos.x - self.x_speed
