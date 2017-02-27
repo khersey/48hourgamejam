@@ -10,6 +10,12 @@ function on_message(self, message_id, message, sender)
 		particlefx.play("#collect")
 		msg.post("#sprite", "disable")
 		msg.post("/level/controller#script", "score_coin")
+		if math.random(10) >= 6 then
+			msg.post("#coin1", "play_sound")
+		else
+			msg.post("#coin2", "play_sound")
+		end
+		
 	elseif message_id == hash("start_animation") then
 		pos = go.get_position()
 		go.animate(go.get_id(), "position.y", go.PLAYBACK_LOOP_PINGPONG, pos.y + 24, go.EASING_INOUTSINE, 0.75, message.delay)

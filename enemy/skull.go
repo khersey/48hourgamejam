@@ -155,6 +155,26 @@ embedded_components {
   }
 }
 embedded_components {
+  id: "skull_death"
+  type: "sound"
+  data: "sound: \"/sound/Slime-SoundBible.com-803762203.wav\"\n"
+  "looping: 0\n"
+  "group: \"master\"\n"
+  "gain: 1.0\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
+embedded_components {
   id: "sprite"
   type: "sprite"
   data: "tile_set: \"/def-runner/sprites/skull.tilesource\"\n"

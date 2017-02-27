@@ -20,9 +20,9 @@ function update(self, dt)
     end
     
     if (pos.y - self.y_pos) >= 250 then
-    	self.y_speed = -2
+    	self.y_speed = -1
     elseif (pos.y - self.y_pos) <= -250 then
-    	self.y_speed = 2
+    	self.y_speed = 8
     end
     
     pos.x = pos.x - self.x_speed

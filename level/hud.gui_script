@@ -2,6 +2,7 @@
 local text_nodes = {"score", "score_text", "life1", "life2", "life3", "life4", }
 
 function init(self)
+	show_splash_screen(self)
 	-- this lets us handle input in this script
 	msg.post(".", "acquire_input_focus")
 	reset_lives(self)
@@ -26,8 +27,17 @@ function on_message(self, message_id, message, sender)
 	elseif message_id == hash("set_lives") then
 		set_lives(self, message.lives)
 	end
-	
 end
+
+function show_splash_screen(self)
+	node = gui.get_node("splash_screen")
+	gui.animate(node, gui.PROP_POSITION, vmath.vector3(0, 600, 0), gui.EASING_INCIRC, 0.5, 3, 
+	function() 
+		node = gui.get_node("splash_screen")
+		gui.set_enabled(node, false)
+	end)
+end
+	
 
 function show(self)
 	reset_lives(self)

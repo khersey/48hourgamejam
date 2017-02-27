@@ -2,7 +2,7 @@ go.property("speed", 5)
 
 local grid = 460
 local platform_heights = { 100, 200, 350 }
-local skull_heights = { 110 ,160, 210, 260, 310, 370, 410 }
+local skull_heights = { 50, 110 ,160, 210, 260, 310, 360, 410, 460 }
 
 function init(self)
 	-- this lets us handle input in this script
@@ -17,6 +17,10 @@ function init(self)
 	self.score = 0
 end
 
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
 function update(self, dt)
 	self.gridw = self.gridw + self.speed
 	
@@ -26,8 +30,6 @@ function update(self, dt)
 	elseif self.score > 2250 then
 		skull_rate = 10
 	end
-	
-	
 		
 	if self.gridw >= grid then
 		self.gridw = 0
@@ -62,10 +64,14 @@ function update(self, dt)
 		end	
 		
 		-- Spawn Spooky Ghosts
-		if math.random(4) == 1 and self.score > 2000 then
+		if math.random(5) == 2 and self.score > 2000 then
 			local h = skull_heights[math.random(#skull_heights)]
 			local f = "#spooky_ghost_factory"
 			local p = factory.create(f, vmath.vector3(1600, h, -0.2), nil, {}, 3) 
+			local next = next
+			if next(self.spooky_ghosts) == nil then
+				msg.post("#spooky_spawn", "play_sound")
+			end
 			table.insert(self.spooky_ghosts, p)
 		end
 	end
@@ -89,6 +95,7 @@ function on_message(self, message_id, message, sender)
 			go.delete(p)
 		end
 		self.spooky_ghosts = {}
+		
 	elseif message_id == hash("delete_skull") then
 		for i,p in ipairs(self.spawns) do
 			if p == message.id then
